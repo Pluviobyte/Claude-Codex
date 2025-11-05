@@ -1,0 +1,79 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "env": {
+        "WORKING_DIR": ".claude"
+      }
+    },
+    "shrimp-task-manager": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-shrimp-task-manager"
+      ],
+      "env": {
+        "DATA_DIR": ".claude/shrimp",
+        "TEMPLATES_USE": "zh",
+        "ENABLE_GUI": "false"
+      }
+    },
+    "codex": {
+      "type": "stdio",
+      "command": "codex",
+      "args": ["mcp-server"],
+      "env": {
+        "WORKING_DIR": ".claude"
+      }
+    },
+    "code-index": {
+      "command": "uvx",
+      "args": [
+        "code-index-mcp"
+      ],
+      "env": {
+        "WORKING_DIR": ".claude"
+      }
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest"
+      ],
+      "env": {
+        "WORKING_DIR": ".claude"
+      }
+    },
+    "exa": {
+      "command": "npx",
+      "args": [
+        "-y",
+       "exa-mcp-server"
+       ],
+      "env": {
+        "EXA_API_KEY": "your-exa-api-key-here",
+        "WORKING_DIR": ".claude"
+      }
+    }
+  },
+  "workflow": {
+    "execution_order": [
+      "sequential-thinking",
+      "shrimp-task-manager",
+      "codex",
+      "code-index",
+      "chrome-devtools",
+      "exa"
+    ],
+    "working_directory": ".claude",
+    "data_directories": {
+      "shrimp": ".claude/shrimp",
+      "codex": ".claude/codex",
+      "context": ".claude/context",
+      "logs": ".claude/logs",
+      "cache": ".claude/cache"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "env": {
+        "WORKING_DIR": ".claude"
+      }
+    },
+    "codex": {
+      "type": "stdio",
+      "command": "codex",
+      "args": ["mcp-server"],
+      "env": {
+        "WORKING_DIR": ".claude"
+      }
+    }
+  },
+  "workflow": {
+    "execution_order": [
+      "sequential-thinking",
+      "codex"
+    ],
+    "working_directory": ".claude",
+    "data_directories": {
+      "codex": ".claude/codex",
+      "context": ".claude/context",
+      "logs": ".claude/logs"
+    }
+  }
+}
