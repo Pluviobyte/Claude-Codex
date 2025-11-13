@@ -1,21 +1,21 @@
-# API 参考文档
+# Documentação de Referência da API
 
-## 🔧 MCP 服务器 API
+## 🔧 API dos Servidores MCP
 
 ### Sequential-thinking
 
-**功能**：深度推理分析工具
+**Funcionalidade**: Ferramenta de análise e raciocínio profundo
 
-**调用方式**：
+**Modo de chamada**:
 ```javascript
-// MCP 工具调用
-sequential-thinking.prompt = "需要深度思考的问题"
+// Chamada de ferramenta MCP
+sequential-thinking.prompt = "Problema que requer pensamento profundo"
 
-// 直接调用
+// Chamada direta
 npx -y @modelcontextprotocol/server-sequential-thinking
 ```
 
-**配置参数**：
+**Parâmetros de configuração**:
 ```json
 {
   "type": "stdio",
@@ -27,44 +27,44 @@ npx -y @modelcontextprotocol/server-sequential-thinking
 }
 ```
 
-**输出格式**：
-- 思考过程分析
-- 风险识别
-- 实现建议
-- 边界条件分析
+**Formato de saída**:
+- Análise do processo de pensamento
+- Identificação de riscos
+- Sugestões de implementação
+- Análise de condições de contorno
 
 ### Shrimp Task Manager
 
-**功能**：任务规划和拆解工具
+**Funcionalidade**: Ferramenta de planejamento e decomposição de tarefas
 
-**调用方式**：
+**Modo de chamada**:
 ```javascript
-// MCP 工具调用
+// Chamada de ferramenta MCP
 shrimp-task-manager.create_task({
-  name: "任务名称",
-  description: "任务描述",
+  name: "Nome da tarefa",
+  description: "Descrição da tarefa",
   priority: "high|medium|low"
 })
 ```
 
-**配置参数**：
+**Parâmetros de configuração**:
 ```json
 {
   "command": "npx",
   "args": ["-y", "mcp-shrimp-task-manager"],
   "env": {
     "DATA_DIR": ".claude/shrimp",
-    "TEMPLATES_USE": "zh",
+    "TEMPLATES_USE": "pt",
     "ENABLE_GUI": "false"
   }
 }
 ```
 
-**数据结构**：
+**Estrutura de dados**:
 ```json
 {
   "task_id": "task-123",
-  "name": "任务名称",
+  "name": "Nome da tarefa",
   "status": "pending|in_progress|completed",
   "priority": "high|medium|low",
   "created_at": "2025-11-05T10:30:00Z",
@@ -74,23 +74,23 @@ shrimp-task-manager.create_task({
 
 ### Codex
 
-**功能**：深度代码分析和生成
+**Funcionalidade**: Análise profunda e geração de código
 
-**调用方式**：
+**Modo de chamada**:
 ```javascript
-// 首次调用
+// Primeira chamada
 mcp__codex__codex(
   model="gpt-5-codex",
   sandbox="danger-full-access",
   approval-policy="on-failure",
-  prompt="[TASK_MARKER: YYYYMMDD-HHMMSS-XXXX]\n任务描述"
+  prompt="[TASK_MARKER: AAAAMMDD-HHMMSS-XXXX]\nDescrição da tarefa"
 )
 
-// 继续会话
-mcp__codex__codex-reply(conversationId="<ID>", prompt="后续指令")
+// Continuar sessão
+mcp__codex__codex-reply(conversationId="<ID>", prompt="Instrução subsequente")
 ```
 
-**配置参数**：
+**Parâmetros de configuração**:
 ```json
 {
   "type": "stdio",
@@ -102,22 +102,22 @@ mcp__codex__codex-reply(conversationId="<ID>", prompt="后续指令")
 }
 ```
 
-**支持的分析类型**：
-- 代码库扫描和检索
-- 复杂逻辑设计（>10行核心逻辑）
-- 质量审查和评分
-- 上下文收集和分析
+**Tipos de análise suportados**:
+- Varredura e recuperação de base de código
+- Design de lógica complexa (>10 linhas de lógica principal)
+- Revisão de qualidade e pontuação
+- Coleta e análise de contexto
 
 ### Code Index
 
-**功能**：代码索引和搜索
+**Funcionalidade**: Indexação e pesquisa de código
 
-**调用方式**：
+**Modo de chamada**:
 ```bash
 uvx code-index-mcp
 ```
 
-**配置参数**：
+**Parâmetros de configuração**:
 ```json
 {
   "command": "uvx",
@@ -128,21 +128,21 @@ uvx code-index-mcp
 }
 ```
 
-**搜索语法**：
-- 文件名搜索：`filename:component`
-- 内容搜索：`content:function_name`
-- 类型搜索：`type:class|function|variable`
+**Sintaxe de pesquisa**:
+- Pesquisa de nome de arquivo: `filename:component`
+- Pesquisa de conteúdo: `content:function_name`
+- Pesquisa de tipo: `type:class|function|variable`
 
 ### Chrome DevTools
 
-**功能**：浏览器调试工具集成
+**Funcionalidade**: Integração de ferramentas de depuração de navegador
 
-**调用方式**：
+**Modo de chamada**:
 ```bash
 npx chrome-devtools-mcp@latest
 ```
 
-**配置参数**：
+**Parâmetros de configuração**:
 ```json
 {
   "command": "npx",
@@ -153,22 +153,22 @@ npx chrome-devtools-mcp@latest
 }
 ```
 
-**支持的操作**：
-- 页面截图
-- 控制台日志获取
-- 网络请求监控
-- DOM 操作
+**Operações suportadas**:
+- Captura de tela de página
+- Obtenção de logs do console
+- Monitoramento de requisições de rede
+- Manipulação DOM
 
 ### Exa Search
 
-**功能**：网络搜索和内容检索
+**Funcionalidade**: Pesquisa na web e recuperação de conteúdo
 
-**调用方式**：
+**Modo de chamada**:
 ```bash
 npx -y exa-mcp-server
 ```
 
-**配置参数**：
+**Parâmetros de configuração**:
 ```json
 {
   "command": "npx",
@@ -180,66 +180,66 @@ npx -y exa-mcp-server
 }
 ```
 
-**搜索参数**：
-- `query`: 搜索关键词
-- `num_results`: 返回结果数量（默认10）
-- `include_domains`: 限制搜索域名
-- `exclude_domains`: 排除搜索域名
+**Parâmetros de pesquisa**:
+- `query`: Palavras-chave de pesquisa
+- `num_results`: Número de resultados a retornar (padrão 10)
+- `include_domains`: Limitar domínios de pesquisa
+- `exclude_domains`: Excluir domínios de pesquisa
 
-## 📁 数据文件 API
+## 📁 API de Arquivos de Dados
 
-### 上下文文件
+### Arquivos de Contexto
 
-**context-initial.json**：
+**context-initial.json**:
 ```json
 {
   "scan_type": "initial",
   "timestamp": "2025-11-05T10:30:00Z",
-  "project_location": "功能在哪个模块/文件",
-  "current_implementation": "现在如何实现",
-  "similar_cases": ["相似案例1", "相似案例2"],
-  "tech_stack": ["框架", "语言", "依赖"],
-  "testing_info": "现有测试文件和验证方式",
+  "project_location": "Em qual módulo/arquivo está a funcionalidade",
+  "current_implementation": "Como está implementado atualmente",
+  "similar_cases": ["Caso similar 1", "Caso similar 2"],
+  "tech_stack": ["Framework", "Linguagem", "Dependências"],
+  "testing_info": "Arquivos de teste existentes e métodos de validação",
   "observations": {
-    "anomalies": ["发现的异常"],
-    "info_gaps": ["信息不足之处"],
-    "suggestions": ["建议深入的方向"],
-    "risks": ["潜在风险"]
+    "anomalies": ["Anomalias encontradas"],
+    "info_gaps": ["Áreas com informação insuficiente"],
+    "suggestions": ["Direções sugeridas para aprofundamento"],
+    "risks": ["Riscos potenciais"]
   }
 }
 ```
 
-**context-question-N.json**：
+**context-question-N.json**:
 ```json
 {
   "question_id": "question-1",
-  "target_question": "要解决的具体疑问",
+  "target_question": "Dúvida específica a ser resolvida",
   "analysis_depth": "deep",
-  "evidence": ["代码片段证据"],
-  "conclusions": ["分析结论"],
-  "recommendations": ["建议行动"],
+  "evidence": ["Evidência de trechos de código"],
+  "conclusions": ["Conclusões da análise"],
+  "recommendations": ["Ações recomendadas"],
   "timestamp": "2025-11-05T10:35:00Z"
 }
 ```
 
-### 编码进度文件
+### Arquivo de Progresso de Codificação
 
-**coding-progress.json**：
+**coding-progress.json**:
 ```json
 {
   "current_task_id": "task-123",
   "files_modified": ["src/foo.ts", "docs/bar.md"],
   "last_update": "2025-11-05T10:30:00Z",
   "status": "coding|review_needed|completed",
-  "pending_questions": ["如何处理边界情况X？"],
+  "pending_questions": ["Como lidar com caso de contorno X?"],
   "complexity_estimate": "simple|moderate|complex",
   "progress_percentage": 75
 }
 ```
 
-### 会话管理文件
+### Arquivo de Gerenciamento de Sessão
 
-**codex-sessions.json**：
+**codex-sessions.json**:
 ```json
 {
   "sessions": [
@@ -247,91 +247,91 @@ npx -y exa-mcp-server
       "task_marker": "20251105-1030-001",
       "conversation_id": "conv-123",
       "timestamp": "2025-11-05T10:30:00Z",
-      "description": "任务描述",
+      "description": "Descrição da tarefa",
       "status": "active|completed|error"
     }
   ]
 }
 ```
 
-### 审查报告文件
+### Arquivo de Relatório de Revisão
 
-**review-report.md**：
+**review-report.md**:
 ```markdown
-# 代码审查报告
+# Relatório de Revisão de Código
 
-## 元数据
-- 审查时间：2025-11-05 10:30
-- 审查者：Codex
-- 任务ID：task-123
+## Metadados
+- Horário da revisão: 2025-11-05 10:30
+- Revisor: Codex
+- ID da tarefa: task-123
 
-## 评分详情
-- 技术维度：85/100
-- 战略维度：90/100
-- 综合评分：87/100
+## Detalhes da Pontuação
+- Dimensão Técnica: 85/100
+- Dimensão Estratégica: 90/100
+- Pontuação Geral: 87/100
 
-## 明确建议
-通过 / 退回 / 需讨论
+## Recomendação Clara
+Aprovar / Devolver / Precisa Discussão
 
-## 核对结果
-- [x] 需求字段完整性
-- [x] 代码质量标准
-- [ ] 测试覆盖完整
+## Resultados da Verificação
+- [x] Integridade dos campos de requisitos
+- [x] Padrões de qualidade de código
+- [ ] Cobertura completa de testes
 
-## 风险与阻塞
-- 风险点1
-- 阻塞问题1
+## Riscos e Bloqueios
+- Ponto de risco 1
+- Problema de bloqueio 1
 
-## 支持论据
-1. 论据1
-2. 论据2
+## Evidências de Suporte
+1. Evidência 1
+2. Evidência 2
 ```
 
-### 操作日志文件
+### Arquivo de Log de Operações
 
-**operations-log.md**：
+**operations-log.md**:
 ```markdown
-# 操作日志
+# Log de Operações
 
-## 2025-11-05 10:30 - 任务开始
-- 操作：启动新任务
-- 工具：sequential-thinking
-- 输出：初步分析完成
+## 2025-11-05 10:30 - Início da Tarefa
+- Operação: Iniciar nova tarefa
+- Ferramenta: sequential-thinking
+- Saída: Análise preliminar concluída
 
-## 2025-11-05 10:35 - 上下文收集
-- 操作：调用Codex进行代码扫描
-- 工具：mcp__codex__codex
-- 会话ID：conv-123
-- 输出：context-initial.json生成
+## 2025-11-05 10:35 - Coleta de Contexto
+- Operação: Chamar Codex para varredura de código
+- Ferramenta: mcp__codex__codex
+- ID da sessão: conv-123
+- Saída: context-initial.json gerado
 
-## 2025-11-05 10:40 - 决策记录
-- 决策：采用方案A
-- 理由：性能更好，维护成本低
-- 推翻Codex建议：是
-- 原因：项目特殊需求
+## 2025-11-05 10:40 - Registro de Decisão
+- Decisão: Adotar solução A
+- Justificativa: Melhor desempenho, menor custo de manutenção
+- Rejeitar sugestão do Codex: Sim
+- Motivo: Requisitos especiais do projeto
 ```
 
-## 🔄 工作流程 API
+## 🔄 API de Fluxo de Trabalho
 
-### 标准工作流调用
+### Chamada de Fluxo de Trabalho Padrão
 
 ```javascript
 // 1. sequential-thinking
-sequential_thinking("分析任务需求和风险")
+sequential_thinking("Analisar requisitos e riscos da tarefa")
 
-// 2. Codex 上下文收集
+// 2. Coleta de contexto do Codex
 codex_context_collection({
   type: "structured_scan",
   output_file: ".claude/context-initial.json"
 })
 
-// 3. shrimp-task-manager 规划
+// 3. Planejamento com shrimp-task-manager
 task_manager_create_plan({
   context: ".claude/context-initial.json",
   output_file: ".claude/task-plan.json"
 })
 
-// 4. 主AI编码 + Codex审查
+// 4. Implementação da IA principal + Revisão do Codex
 main_ai_implementation({
   plan: ".claude/task-plan.json"
 })
@@ -341,70 +341,70 @@ codex_review({
 })
 ```
 
-### 错误处理
+### Tratamento de Erros
 
 ```javascript
 try {
-  // 执行工作流
+  // Executar fluxo de trabalho
   await execute_workflow()
 } catch (error) {
-  // 记录到 operations-log.md
+  // Registrar em operations-log.md
   log_operation("error", error.message)
 
-  // 重试机制（最多3次）
+  // Mecanismo de retry (máximo 3 vezes)
   if (retry_count < 3) {
     await retry_workflow()
   } else {
-    // 上报主AI
+    // Relatar para IA principal
     report_to_main_ai(error)
   }
 }
 ```
 
-## 📊 监控 API
+## 📊 API de Monitoramento
 
-### 性能指标
+### Métricas de Desempenho
 
 ```javascript
-// 获取工具响应时间
+// Obter tempo de resposta das ferramentas
 const response_time = get_tool_metrics("sequential-thinking")
 
-// 获取会话成功率
+// Obter taxa de sucesso das sessões
 const success_rate = get_session_metrics()
 
-// 获取代码审查质量分数
+// Obter pontuação de qualidade de revisão de código
 const quality_scores = get_review_metrics()
 ```
 
-### 健康检查
+### Verificação de Saúde
 
 ```javascript
-// 检查MCP服务器状态
+// Verificar status dos servidores MCP
 const health_status = {
   "sequential-thinking": check_server_health("sequential-thinking"),
   "codex": check_server_health("codex"),
   "shrimp-task-manager": check_server_health("shrimp-task-manager")
 }
 
-// 检查文件系统权限
+// Verificar permissões do sistema de arquivos
 const fs_permissions = check_permissions(".claude/")
 ```
 
-## 🔧 配置 API
+## 🔧 API de Configuração
 
-### 动态配置更新
+### Atualização Dinâmica de Configuração
 
 ```javascript
-// 更新工作目录
+// Atualizar diretório de trabalho
 update_config("working_directory", ".claude")
 
-// 添加新的MCP服务器
+// Adicionar novo servidor MCP
 add_mcp_server({
   name: "new-tool",
   config: {...}
 })
 
-// 更新工具调用顺序
+// Atualizar ordem de chamada de ferramentas
 update_execution_order([
   "sequential-thinking",
   "shrimp-task-manager",
@@ -413,10 +413,10 @@ update_execution_order([
 ])
 ```
 
-### 配置验证
+### Validação de Configuração
 
 ```javascript
-// 验证配置完整性
+// Validar integridade da configuração
 const validation_result = validate_config({
   required_fields: ["workflow", "mcpServers"],
   path_checks: [".claude"],

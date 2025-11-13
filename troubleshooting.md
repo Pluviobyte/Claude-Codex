@@ -1,234 +1,234 @@
-# 故障排除指南
+# Guia de Solução de Problemas
 
-## 🔧 常见问题解决
+## 🔧 Resolução de Problemas Comuns
 
-### ❌ 看不到codex工具
+### ❌ Não consigo ver as ferramentas do Codex
 
-**问题**: 在Claude Code中输入 `/available-tools` 看不到codex相关工具
+**Problema**: Ao digitar `/available-tools` no Claude Code, não aparecem as ferramentas relacionadas ao Codex
 
-**可能原因**:
-1. 配置文件未正确安装
-2. Claude Code未重启
-3. MCP服务器未启动
+**Possíveis causas**:
+1. Arquivo de configuração não foi instalado corretamente
+2. Claude Code não foi reiniciado
+3. Servidor MCP não foi iniciado
 
-**解决方案**:
+**Soluções**:
 ```bash
-# 1. 验证配置文件
+# 1. Verificar arquivo de configuração
 ./verify-config.sh
 
-# 2. 检查配置文件位置
+# 2. Verificar localização do arquivo de configuração
 ls -la ~/Library/Application\ Support/Claude/claude_desktop_config.json  # macOS
 ls -la ~/.config/claude/claude_desktop_config.json  # Linux
 ls -la %APPDATA%/Claude/claude_desktop_config.json  # Windows
 
-# 3. 重新安装配置
+# 3. Reinstalar configuração
 ./install.sh
 ```
 
-### 🔑 API密钥问题
+### 🔑 Problemas com chave de API
 
-**问题**: API调用失败，提示认证错误
+**Problema**: Falha nas chamadas de API, erro de autenticação
 
-**可能原因**:
-1. API密钥格式错误
-2. API密钥已过期
-3. 账户余额不足
+**Possíveis causas**:
+1. Formato incorreto da chave de API
+2. Chave de API expirada
+3. Saldo insuficiente na conta
 
-**解决方案**:
+**Soluções**:
 ```bash
-# 1. 检查API密钥格式
+# 1. Verificar formato da chave de API
 grep "OPENAI_API_KEY" ~/.config/claude/claude_desktop_config.json
 
-# 2. 测试API密钥
+# 2. Testar chave de API
 curl -H "Authorization: Bearer YOUR_API_KEY" https://api.openai.com/v1/models
 
-# 3. 更新API密钥
-# 编辑配置文件，替换API密钥
+# 3. Atualizar chave de API
+# Edite o arquivo de configuração e substitua a chave de API
 ```
 
-**API密钥格式要求**:
-- 以 `sk-` 开头
-- 总长度51个字符
-- 包含字母和数字
+**Requisitos de formato da chave de API**:
+- Começa com `sk-`
+- Comprimento total de 51 caracteres
+- Contém letras e números
 
-### 🌐 网络连接问题
+### 🌐 Problemas de conexão de rede
 
-**问题**: 无法连接到OpenAI API
+**Problema**: Não é possível conectar à API OpenAI
 
-**可能原因**:
-1. 网络防火墙阻止
-2. 代理设置问题
-3. DNS解析问题
+**Possíveis causas**:
+1. Firewall bloqueando a conexão
+2. Problemas de configuração de proxy
+3. Problemas de resolução DNS
 
-**解决方案**:
+**Soluções**:
 ```bash
-# 1. 测试网络连接
+# 1. Testar conexão de rede
 curl -I https://api.openai.com/v1/models
 
-# 2. 检查代理设置
+# 2. Verificar configurações de proxy
 echo $HTTP_PROXY
 echo $HTTPS_PROXY
 
-# 3. 使用代理（如果需要）
-export HTTPS_PROXY=http://your-proxy:port
+# 3. Usar proxy (se necessário)
+export HTTPS_PROXY=http://seu-proxy:porta
 ```
 
-### 📦 依赖安装失败
+### 📦 Falha na instalação de dependências
 
-**问题**: npm或pip包安装失败
+**Problema**: Falha ao instalar pacotes npm ou pip
 
-**可能原因**:
-1. 权限不足
-2. 网络问题
-3. 版本冲突
+**Possíveis causas**:
+1. Permissões insuficientes
+2. Problemas de rede
+3. Conflitos de versão
 
-**解决方案**:
+**Soluções**:
 ```bash
-# 1. 使用sudo安装（Linux/macOS）
+# 1. Usar sudo para instalar (Linux/macOS)
 sudo npm install -g @modelcontextprotocol/server-sequential-thinking
 
-# 2. 清除npm缓存
+# 2. Limpar cache do npm
 npm cache clean --force
 
-# 3. 使用国内镜像源
-npm config set registry https://registry.npmmirror.com
+# 3. Usar espelho brasileiro
+npm config set registry https://registry.npmjs.org
 
-# 4. 手动安装Python包
+# 4. Instalar pacotes Python manualmente
 pip3 install --user uv
 ```
 
-### 🚀 MCP服务器启动失败
+### 🚀 Falha ao iniciar servidor MCP
 
-**问题**: MCP服务器无法正常启动
+**Problema**: Servidor MCP não inicia corretamente
 
-**可能原因**:
-1. Node.js版本不兼容
-2. Python环境问题
-3. 端口被占用
+**Possíveis causas**:
+1. Versão incompatível do Node.js
+2. Problemas no ambiente Python
+3. Porta já em uso
 
-**解决方案**:
+**Soluções**:
 ```bash
-# 1. 检查Node.js版本
-node --version  # 需要 >= 16.0.0
+# 1. Verificar versão do Node.js
+node --version  # Necessário >= 16.0.0
 
-# 2. 检查Python版本
-python3 --version  # 需要 >= 3.8
+# 2. Verificar versão do Python
+python3 --version  # Necessário >= 3.8
 
-# 3. 手动测试MCP服务器
+# 3. Testar servidor MCP manualmente
 npx @modelcontextprotocol/server-sequential-thinking --version
 codex --version
 
-# 4. 查看错误日志
+# 4. Ver logs de erro
 tail -f ~/.claude/logs/*.log
 ```
 
-## 🔍 诊断工具
+## 🔍 Ferramentas de Diagnóstico
 
-### 配置验证脚本
+### Script de verificação de configuração
 ```bash
-# 运行完整配置检查
+# Executar verificação completa de configuração
 ./verify-config.sh
 ```
 
-### 手动检查步骤
+### Passos de verificação manual
 ```bash
-# 1. 检查配置文件语法
+# 1. Verificar sintaxe do arquivo de configuração
 python3 -m json.tool ~/.config/claude/claude_desktop_config.json
 
-# 2. 测试MCP服务器
+# 2. Testar servidores MCP
 npx -y @modelcontextprotocol/server-sequential-thinking --help
 codex mcp-server --help
 
-# 3. 检查Claude Code版本
-# 在Claude Code中输入: /version
+# 3. Verificar versão do Claude Code
+# No Claude Code, digite: /version
 ```
 
-## 📋 系统要求
+## 📋 Requisitos do Sistema
 
-### 最低要求
-- **操作系统**: Windows 10+, macOS 10.15+, Ubuntu 18.04+
+### Requisitos Mínimos
+- **Sistema Operacional**: Windows 10+, macOS 10.15+, Ubuntu 18.04+
 - **Node.js**: 16.0.0+
 - **Python**: 3.8+
-- **内存**: 4GB RAM
-- **存储**: 1GB可用空间
+- **Memória**: 4GB RAM
+- **Armazenamento**: 1GB de espaço disponível
 
-### 推荐配置
-- **操作系统**: 最新版本的Windows/macOS/Linux
+### Configuração Recomendada
+- **Sistema Operacional**: Versão mais recente de Windows/macOS/Linux
 - **Node.js**: 18.0.0+
 - **Python**: 3.10+
-- **内存**: 8GB+ RAM
-- **存储**: 2GB+可用空间
-- **网络**: 稳定的互联网连接
+- **Memória**: 8GB+ RAM
+- **Armazenamento**: 2GB+ de espaço disponível
+- **Rede**: Conexão estável à internet
 
-## 🔄 重置配置
+## 🔄 Resetar Configuração
 
-### 完全重置
+### Reset Completo
 ```bash
-# 1. 备份现有配置
+# 1. Fazer backup da configuração existente
 cp ~/.config/claude/claude_desktop_config.json ~/.config/claude/claude_desktop_config.json.backup
 
-# 2. 删除配置文件
+# 2. Remover arquivo de configuração
 rm ~/.config/claude/claude_desktop_config.json
 
-# 3. 重新安装
+# 3. Reinstalar
 ./install.sh
 ```
 
-### 清理依赖
+### Limpar Dependências
 ```bash
-# 卸载npm包
+# Desinstalar pacotes npm
 npm uninstall -g @modelcontextprotocol/server-sequential-thinking
 npm uninstall -g mcp-shrimp-task-manager
 npm uninstall -g chrome-devtools-mcp
 npm uninstall -g exa-mcp-server
 
-# 卸载Python包
+# Desinstalar pacotes Python
 pip uninstall uv
 ```
 
-## 📞 获取帮助
+## 📞 Obter Ajuda
 
-### 社区支持
-- **GitHub Issues**: https://github.com/Pluviobyte/Claude-Codex/issues
-- **讨论区**: https://github.com/Pluviobyte/Claude-Codex/discussions
+### Suporte da Comunidade
+- **GitHub Issues**: https://github.com/tiagoalucard/Claude-Codex/issues
+- **Discussões**: https://github.com/tiagoalucard/Claude-Codex/discussions
 
-### 日志收集
+### Coleta de Logs
 ```bash
-# 收集系统信息
+# Coletar informações do sistema
 ./collect-logs.sh
 
-# 手动收集日志
-echo "=== 系统信息 ===" > debug.log
+# Coletar logs manualmente
+echo "=== Informações do Sistema ===" > debug.log
 uname -a >> debug.log
 node --version >> debug.log
 python3 --version >> debug.log
 echo "" >> debug.log
 
-echo "=== 配置文件 ===" >> debug.log
+echo "=== Arquivo de Configuração ===" >> debug.log
 cat ~/.config/claude/claude_desktop_config.json >> debug.log
 echo "" >> debug.log
 
-echo "=== 网络测试 ===" >> debug.log
+echo "=== Teste de Rede ===" >> debug.log
 curl -I https://api.openai.com/v1/models >> debug.log
 ```
 
-## 🎯 性能优化
+## 🎯 Otimização de Desempenho
 
-### API调用优化
-- 使用适当的模型（gpt-4比gpt-3.5更贵但更准确）
-- 设置合理的调用限制
-- 缓存常用结果
+### Otimização de Chamadas de API
+- Use o modelo apropriado (gpt-4 é mais caro mas mais preciso que gpt-3.5)
+- Configure limites de chamada razoáveis
+- Cache resultados usados frequentemente
 
-### 本地优化
-- 确保足够的内存
-- 使用SSD存储
-- 关闭不必要的后台应用
+### Otimização Local
+- Garanta memória suficiente
+- Use armazenamento SSD
+- Feche aplicativos desnecessários em segundo plano
 
-### 网络优化
-- 使用稳定的网络连接
-- 考虑使用CDN加速
-- 设置合理的超时时间
+### Otimização de Rede
+- Use conexão de rede estável
+- Considere usar CDN para aceleração
+- Configure timeouts razoáveis
 
 ---
 
-如果以上解决方案都无法解决你的问题，请创建GitHub Issue并提供详细的错误信息和系统环境。
+Se as soluções acima não resolverem seu problema, por favor crie uma Issue no GitHub fornecendo informações detalhadas sobre o erro e ambiente do sistema.

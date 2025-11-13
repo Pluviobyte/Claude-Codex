@@ -16,7 +16,7 @@
       ],
       "env": {
         "DATA_DIR": ".claude/shrimp",
-        "TEMPLATES_USE": "zh",
+        "TEMPLATES_USE": "pt",
         "ENABLE_GUI": "false"
       }
     },

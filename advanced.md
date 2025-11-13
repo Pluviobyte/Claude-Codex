@@ -1,10 +1,10 @@
-# 高级配置指南
+# Guia de Configuração Avançada
 
-## 🔧 工作流程配置
+## 🔧 Configuração de Fluxo de Trabalho
 
-### 严格工具调用顺序
+### Ordem Estrita de Chamada de Ferramentas
 
-根据CLAUDE.md要求，必须严格按照以下顺序执行：
+De acordo com os requisitos do CLAUDE.md, deve ser executado estritamente na seguinte ordem:
 
 ```json
 {
@@ -19,125 +19,125 @@
 }
 ```
 
-### 职责分离配置
+### Configuração de Separação de Responsabilidades
 
-**主AI（Claude Code）职责**：
-- ✅ 任务规划和拆解（使用 shrimp-task-manager）
-- ✅ 直接代码编写（使用 Read/Edit/Write）
-- ✅ 简单逻辑实现（<10 行核心逻辑）
-- ✅ 最终决策确认（基于 Codex 建议）
-- ✅ 决策记录留痕（operations-log.md）
+**Responsabilidades da IA Principal (Claude Code)**:
+- ✅ Planejamento e decomposição de tarefas (usando shrimp-task-manager)
+- ✅ Escrita direta de código (usando Read/Edit/Write)
+- ✅ Implementação de lógica simples (<10 linhas de lógica principal)
+- ✅ Confirmação de decisão final (baseado em sugestões do Codex)
+- ✅ Registro de rastreamento de decisões (operations-log.md)
 
-**Codex（支持AI）职责**：
-- ✅ 深度推理分析（使用 sequential-thinking）
-- ✅ 全面代码检索（充分时间进行代码库扫描）
-- ✅ 复杂逻辑设计（>10 行核心逻辑）
-- ✅ 上下文收集和分析（输出到 `.claude/context-*.json`）
-- ✅ 质量审查评分（代码审查、风险识别）
+**Responsabilidades do Codex (IA de Suporte)**:
+- ✅ Análise e raciocínio profundo (usando sequential-thinking)
+- ✅ Pesquisa completa de código (tempo suficiente para varredura da base de código)
+- ✅ Design de lógica complexa (>10 linhas de lógica principal)
+- ✅ Coleta e análise de contexto (saída para `.claude/context-*.json`)
+- ✅ Pontuação de revisão de qualidade (revisão de código, identificação de riscos)
 
-## 📁 目录结构规范
+## 📁 Especificação de Estrutura de Diretórios
 
-所有工作文件必须写入项目本地 `.claude/` 目录：
+Todos os arquivos de trabalho devem ser escritos no diretório local `.claude/` do projeto:
 
 ```
 <project>/.claude/
-├── context-initial.json        ← 初步收集（Codex 输出）
-├── context-question-N.json     ← 深度分析（Codex 输出）
-├── coding-progress.json        ← 实时编码状态（主AI 输出）
-├── operations-log.md           ← 决策记录（主AI 输出）
-├── review-report.md            ← 审查报告（Codex 输出）
-├── codex-sessions.json         ← 会话管理（Codex 持久化）
-├── shrimp/                     ← 任务管理数据
-├── codex/                      ← Codex 工作数据
-├── context/                    ← 上下文数据
-├── logs/                       ← 日志文件
-└── cache/                      ← 缓存数据
+├── context-initial.json        ← Coleta preliminar (saída do Codex)
+├── context-question-N.json     ← Análise profunda (saída do Codex)
+├── coding-progress.json        ← Estado de codificação em tempo real (saída da IA principal)
+├── operations-log.md           ← Registro de decisões (saída da IA principal)
+├── review-report.md            ← Relatório de revisão (saída do Codex)
+├── codex-sessions.json         ← Gerenciamento de sessão (persistência do Codex)
+├── shrimp/                     ← Dados de gerenciamento de tarefas
+├── codex/                      ← Dados de trabalho do Codex
+├── context/                    ← Dados de contexto
+├── logs/                       ← Arquivos de log
+└── cache/                      ← Dados em cache
 ```
 
-## 🔄 标准工作流程（6步骤）
+## 🔄 Fluxo de Trabalho Padrão (6 etapas)
 
-### 1. 分析需求
-- 使用 sequential-thinking 深度理解需求
-- Codex 进行全面上下文收集
+### 1. Analisar Requisitos
+- Usar sequential-thinking para compreensão profunda dos requisitos
+- Codex realiza coleta abrangente de contexto
 
-### 2. 获取上下文
-- Codex 执行结构化快速扫描
-- 输出到 `.claude/context-initial.json`
-- 主AI 识别关键疑问
+### 2. Obter Contexto
+- Codex executa varredura rápida estruturada
+- Saída para `.claude/context-initial.json`
+- IA principal identifica questões-chave
 
-### 3. 选择工具
-- 根据任务复杂度选择合适的工具组合
-- 遵循严格的工具调用顺序
+### 3. Selecionar Ferramentas
+- Escolher combinação apropriada de ferramentas com base na complexidade da tarefa
+- Seguir ordem estrita de chamada de ferramentas
 
-### 4. 执行任务
-- 主AI 直接编码（简单逻辑）
-- 复杂逻辑委托 Codex 设计
-- 实时更新 `coding-progress.json`
+### 4. Executar Tarefa
+- IA principal codifica diretamente (lógica simples)
+- Lógica complexa delegada ao Codex para design
+- Atualização em tempo real de `coding-progress.json`
 
-### 5. 验证质量
-- Codex 使用 sequential-thinking 深度审查
-- 生成评分和建议（写入 `.claude/review-report.md`）
-- 主AI 基于建议快速决策
+### 5. Verificar Qualidade
+- Codex usa sequential-thinking para revisão profunda
+- Gera pontuação e sugestões (escreve em `.claude/review-report.md`)
+- IA principal toma decisões rápidas com base em sugestões
 
-### 6. 存储知识
-- 记录决策过程到 `operations-log.md`
-- 更新上下文文件
-- 维护会话状态
+### 6. Armazenar Conhecimento
+- Registrar processo de decisão em `operations-log.md`
+- Atualizar arquivos de contexto
+- Manter estado da sessão
 
-## 🎯 Codex 调用规范
+## 🎯 Especificação de Chamada do Codex
 
-### 首次调用
+### Primeira Chamada
 ```javascript
 mcp__codex__codex(
   model="gpt-5-codex",
   sandbox="danger-full-access",
   approval-policy="on-failure",
-  prompt="[TASK_MARKER: YYYYMMDD-HHMMSS-XXXX]\n目标：[任务描述]\n输出：[交付物列表]"
+  prompt="[TASK_MARKER: AAAAMMDD-HHMMSS-XXXX]\nObjetivo: [descrição da tarefa]\nSaída: [lista de entregas]"
 )
 ```
 
-### 继续会话
+### Continuar Sessão
 ```javascript
-mcp__codex__codex-reply(conversationId="<ID>", prompt="[指令]")
+mcp__codex__codex-reply(conversationId="<ID>", prompt="[instrução]")
 ```
 
-### conversationId 管理
-- 主AI生成 task_marker：`[TASK_MARKER: YYYYMMDD-HHMMSS-XXXX]`
-- Codex 查询并持久化到 `.claude/codex-sessions.json`
-- 响应末尾返回：`[CONVERSATION_ID]: <conversationId>`
+### Gerenciamento de conversationId
+- IA principal gera task_marker: `[TASK_MARKER: AAAAMMDD-HHMMSS-XXXX]`
+- Codex consulta e persiste em `.claude/codex-sessions.json`
+- Retorna no final da resposta: `[CONVERSATION_ID]: <conversationId>`
 
-## 📊 质量审查评分系统
+## 📊 Sistema de Pontuação de Revisão de Qualidade
 
-### 评分维度
-- **技术维度**（代码质量、测试覆盖、规范遵循）
-- **战略维度**（需求匹配、架构一致、风险评估）
-- **综合评分**（0-100）
+### Dimensões de Pontuação
+- **Dimensão Técnica** (qualidade de código, cobertura de testes, conformidade com normas)
+- **Dimensão Estratégica** (correspondência de requisitos, consistência de arquitetura, avaliação de riscos)
+- **Pontuação Geral** (0-100)
 
-### 决策规则
-- ≥90分且建议"通过" → 直接确认通过
-- <80分且建议"退回" → 直接确认退回
-- 80-89分或建议"需讨论" → 仔细审阅后决策
+### Regras de Decisão
+- ≥90 pontos e sugestão "aprovar" → Confirmar aprovação diretamente
+- <80 pontos e sugestão "devolver" → Confirmar devolução diretamente
+- 80-89 pontos ou sugestão "precisa discussão" → Decidir após revisão cuidadosa
 
-## ⚡ 自动化执行策略
+## ⚡ Estratégia de Execução Automatizada
 
-### 默认自动执行（无需确认）
-- ✅ 所有文件读写操作
-- ✅ 标准工具调用（code-index、exa、grep等）
-- ✅ 代码编写、修改、重构
-- ✅ 文档生成和更新
-- ✅ 测试执行和验证脚本运行
-- ✅ 任务规划和分解、上下文收集
-- ✅ 调用 mcp__codex__codex 或 codex-reply
+### Execução Automática Padrão (sem confirmação)
+- ✅ Todas as operações de leitura/escrita de arquivos
+- ✅ Chamadas de ferramentas padrão (code-index, exa, grep, etc.)
+- ✅ Escrita, modificação e refatoração de código
+- ✅ Geração e atualização de documentação
+- ✅ Execução de testes e scripts de validação
+- ✅ Planejamento e decomposição de tarefas, coleta de contexto
+- ✅ Chamada de mcp__codex__codex ou codex-reply
 
-### 需要确认的例外情况
-- ⚠️ 删除核心配置文件
-- ⚠️ 数据库 schema 的破坏性变更
-- ⚠️ Git push 到远程仓库
-- ⚠️ 连续3次相同错误后需要策略调整
+### Exceções que Requerem Confirmação
+- ⚠️ Exclusão de arquivos de configuração principais
+- ⚠️ Alterações destrutivas no schema do banco de dados
+- ⚠️ Git push para repositório remoto
+- ⚠️ Ajuste de estratégia necessário após 3 erros consecutivos idênticos
 
-## 🔍 高级功能配置
+## 🔍 Configuração de Recursos Avançados
 
-### Exa 搜索配置
+### Configuração de Pesquisa Exa
 ```json
 {
   "exa": {
@@ -151,7 +151,7 @@ mcp__codex__codex-reply(conversationId="<ID>", prompt="[指令]")
 }
 ```
 
-### Chrome DevTools 集成
+### Integração Chrome DevTools
 ```json
 {
   "chrome-devtools": {
@@ -164,7 +164,7 @@ mcp__codex__codex-reply(conversationId="<ID>", prompt="[指令]")
 }
 ```
 
-### Code Index 配置
+### Configuração Code Index
 ```json
 {
   "code-index": {
@@ -177,39 +177,39 @@ mcp__codex__codex-reply(conversationId="<ID>", prompt="[指令]")
 }
 ```
 
-## 🛠️ 故障排除
+## 🛠️ Solução de Problemas
 
-### 常见问题
-1. **工具调用顺序错误** → 检查 workflow.execution_order 配置
-2. **路径规范问题** → 确保所有工具使用 `.claude/` 目录
-3. **会话管理失败** → 检查 `.claude/codex-sessions.json` 文件
-4. **权限问题** → 确保 `.claude/` 目录有写权限
+### Problemas Comuns
+1. **Erro na ordem de chamada de ferramentas** → Verificar configuração workflow.execution_order
+2. **Problema de especificação de caminho** → Garantir que todas as ferramentas usem o diretório `.claude/`
+3. **Falha no gerenciamento de sessão** → Verificar arquivo `.claude/codex-sessions.json`
+4. **Problema de permissões** → Garantir que o diretório `.claude/` tenha permissões de escrita
 
-### 调试命令
+### Comandos de Depuração
 ```bash
-# 验证配置
+# Verificar configuração
 ./verify-config.sh
 
-# 检查工具调用顺序
+# Verificar ordem de chamada de ferramentas
 grep -A 10 "execution_order" .claude/claude_desktop_config.json
 
-# 查看会话状态
+# Ver estado da sessão
 cat .claude/codex-sessions.json
 
-# 检查工作目录权限
+# Verificar permissões do diretório de trabalho
 ls -la .claude/
 ```
 
-## 📈 性能优化
+## 📈 Otimização de Desempenho
 
-### 建议设置
-- 使用 SSD 存储提高 I/O 性能
-- 配置足够的内存（推荐 8GB+）
-- 定期清理 `.claude/cache/` 目录
-- 使用本地缓存减少重复计算
+### Configurações Recomendadas
+- Usar armazenamento SSD para melhorar desempenho de I/O
+- Configurar memória suficiente (recomendado 8GB+)
+- Limpar periodicamente o diretório `.claude/cache/`
+- Usar cache local para reduzir cálculos repetidos
 
-### 监控指标
-- 工具响应时间
-- 会话成功率
-- 代码审查质量分数
-- 任务完成时间
+### Métricas de Monitoramento
+- Tempo de resposta das ferramentas
+- Taxa de sucesso das sessões
+- Pontuação de qualidade de revisão de código
+- Tempo de conclusão de tarefas
